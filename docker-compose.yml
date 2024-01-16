@@ -28,4 +28,4 @@ services:
       - .env
     ports:
       - "8000:8000"
-    command: ./entrypoint.sh
+    command: sh /app/entrypoint.sh
