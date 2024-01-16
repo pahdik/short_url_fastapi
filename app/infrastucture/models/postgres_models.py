@@ -1,6 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncAttrs
 from sqlalchemy.orm import Mapped, DeclarativeBase
-
 from typing import List
 from sqlalchemy.orm import mapped_column
 from sqlalchemy import String, ForeignKey, UniqueConstraint

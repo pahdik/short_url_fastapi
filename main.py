@@ -5,10 +5,19 @@ from fastapi.responses import JSONResponse
 from pydantic import ValidationError
 from starlette import status
 
-from app.domain.usecases.custom_exeptions import DuplicateEntryError
+from app.domain.usecases.custom_exeptions import DuplicateEntryError, NotFoundError
 from app.infrastucture.api.v0 import url_router
 
 app = FastAPI()
+
+
+@app.exception_handler(NotFoundError)
+async def duplicate_entry_error_handler(request: Request, exc: NotFoundError):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content=exc.detail
+    )
+
 
 @app.exception_handler(DuplicateEntryError)
 async def duplicate_entry_error_handler(request: Request, exc: DuplicateEntryError):
@@ -16,6 +25,7 @@ async def duplicate_entry_error_handler(request: Request, exc: DuplicateEntryErr
         status_code=exc.status_code,
         content=exc.detail
     )
+
 
 @app.exception_handler(ValidationError)
 async def validation_exception_handler(request: Request, exc: ValidationError):
