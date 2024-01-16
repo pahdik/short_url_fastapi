@@ -1,8 +1,7 @@
 from app.domain.usecases.base_usecase import BaseUseCase
 from .mixins import OriginalUrlMixin, ShortenedUrlMixin
+from ..interfaces.interface_repositories import IShortenedUrlRepository, IOriginalUrlRepository
 from ..schema.url_schema import UrlSchema, ShortenedURlSchema
-from ...infrastucture.models.postgres_models import OriginalUrl, ShortenedUrl
-from app.infrastucture.repositories.db import IOriginalUrlRepository, IShortenedUrlRepository
 import hashlib
 
 

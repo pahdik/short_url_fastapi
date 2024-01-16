@@ -1,46 +1,22 @@
-import logging
 from abc import ABC, abstractmethod
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import async_sessionmaker
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.orm import joinedload
+
+from app.domain.interfaces.interface_repositories import IOriginalUrlRepository, IShortenedUrlRepository
 from app.infrastucture.models.postgres_models import OriginalUrl, ShortenedUrl, Base
 from app.infrastucture.configs.configs import PostgresSettings
 
 settings = PostgresSettings()
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
-
 
 SQLALCHEMY_DATABASE_URL = f"postgresql+asyncpg://{settings.user}:{settings.password}@{settings.host}:5432/{settings.db}"
-# SQLALCHEMY_DATABASE_URL = f"postgresql+asyncpg://admin:123@db:5432/postgres"
-logger.warning(SQLALCHEMY_DATABASE_URL)
+
 engine = create_async_engine(
     SQLALCHEMY_DATABASE_URL,
     echo=True
 )
 async_session = async_sessionmaker(engine, expire_on_commit=False)
-
-
-class IOriginalUrlRepository(ABC):
-    @abstractmethod
-    async def add_one(self, model: OriginalUrl) -> None:
-        pass
-
-    @abstractmethod
-    async def find_one(self, original_url: str) -> OriginalUrl | None:
-        pass
-
-
-class IShortenedUrlRepository(ABC):
-    @abstractmethod
-    async def add_one(self, model: ShortenedUrl) -> None:
-        pass
-
-    @abstractmethod
-    async def find_one(self, shortened_url: str) -> ShortenedUrl | None:
-        pass
 
 
 class OriginalUrlRepository(IOriginalUrlRepository):

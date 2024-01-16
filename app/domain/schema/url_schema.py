@@ -1,7 +1,6 @@
 from pydantic import BaseModel, HttpUrl
 
 
-# TODO: handle the error returned by HttpUrl
 class UrlSchema(BaseModel):
     url_name: HttpUrl
 
